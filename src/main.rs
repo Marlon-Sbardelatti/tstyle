@@ -21,6 +21,8 @@ fn main() -> std::io::Result<()> {
         hex = String::from("#0a0e14");
     } else if theme_name == "tkn" {
         hex = String::from("#11121d");
+    } else if theme_name == "cat" {
+        hex = String::from("#1e1e2f");
     } else {
         panic!("Invalid arg, please provide a valid colorscheme name");
     }
