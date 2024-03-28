@@ -23,7 +23,7 @@ cd tstyle
 cargo build --release
 ```
 ## Setting Up Default Theme
-Make sure you have [Catppuccin](https://github.com/catppuccin/tmux) tmux theme set as your theme in your tmux configuration. This CLI tool relies on having one colorscheme set as the default.
+Make sure you have [Catppuccin](https://github.com/catppuccin/tmux) mocha flavour tmux theme set as your theme in your tmux configuration. This CLI tool relies on having one colorscheme set as the default.
 ## Usage
 
 ### Get a tmux statusline colorscheme by its name
