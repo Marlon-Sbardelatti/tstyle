@@ -18,6 +18,8 @@ git clone git@github.com:Marlon-Sbardelatti/tstyle.git
 cd tstyle
 cargo build --release
 ```
+## Setting Up Default Theme
+Make sure you have [Catppuccin](https://github.com/catppuccin/tmux) tmux theme set as your theme in your tmux configuration. This CLI tool relies on having one colorscheme set as the default.
 ## Usage
 
 ### Get a tmux statusline colorscheme by its name
@@ -47,6 +49,27 @@ tstyle -c mytheme '#abcdef'
 ```bash
 tstyle -l
 ```
+## Sample Themes
+If you've already run the TStyle program, you should have a directory called tstyle in your ~/.config directory. Inside this directory, there should be a file named themes.txt. You can paste the following lines into the themes.txt file to add some sample themes:
+
+```plaintext
+ayu;#0a0e14
+catppuccin;#1e1e2f
+tokyodark;#11121d
+dracula;#282a36
+```
+If you haven't run the TStyle program yet, you can follow these steps to set up the directory and file manually:
+
+Create a directory named tstyle in your ~/.config directory.
+
+```bash
+mkdir -p ~/.config/tstyle
+```
+Inside the tstyle directory, create a file named themes.txt.
+
+Open the themes.txt file and paste the sample themes lines provided above.
+
+These sample themes will serve as examples for managing tmux statusline colorschemes using TStyle.
 ## Contributing
 Contributions to TStyle are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
 ## License
