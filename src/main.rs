@@ -1,53 +1,144 @@
-use core::panic;
 use std::env;
+use std::fs::create_dir_all;
 use std::fs::File;
+use std::fs::OpenOptions;
+use std::io;
 use std::io::prelude::*;
 use std::io::BufReader;
+use std::path::PathBuf;
 use std::process::Command;
 
 fn main() -> std::io::Result<()> {
-    let mut hex = String::new();
     let args: Vec<String> = env::args().collect();
 
-    // Check if the correct number of arguments is provided
-    if args.len() != 2 {
-        eprintln!("Usage: {} <theme_name>", args[0]);
-        std::process::exit(1);
-    }
+    let flag = &args[1];
+    if flag == "-g" {
+        let get_name = &args[2];
+        let file = File::open("/home/hetzwga/.config/tstyle/themes.txt")?;
+        let reader = BufReader::new(file);
 
-    // Extract the theme name from the arguments
-    let theme_name = &args[1];
-    if theme_name == "ayu" {
-        hex = String::from("#0a0e14");
-    } else if theme_name == "tkn" {
-        hex = String::from("#11121d");
-    } else if theme_name == "cat" {
-        hex = String::from("#1e1e2f");
+        let mut vec: Vec<String> = Vec::new();
+        for line in reader.lines() {
+            let line = line?;
+            vec.push(line);
+        }
+        for string in vec {
+            // Split the string by the semicolon
+            let parts: Vec<&str> = string.split(';').collect();
+
+            // Ensure that the string contains both name and value
+            if parts.len() == 2 {
+                // Extract the name and value
+                let name = parts[0];
+                let value = parts[1];
+
+                if name == get_name {
+                    change_hex(value.to_string())?;
+                    break;
+                }
+            } else {
+                // Handle unexpected format
+                println!("Invalid format for string: {}", string);
+            }
+        }
+    } else if flag == "-l" {
+        let file = File::open("/home/hetzwga/.config/tstyle/themes.txt")?;
+        let reader = BufReader::new(file);
+
+        let mut vec: Vec<String> = Vec::new();
+        for line in reader.lines() {
+            let line = line?;
+            vec.push(line);
+        }
+        for string in vec {
+            let parts: Vec<&str> = string.split(';').collect();
+            if parts.len() == 2 {
+                // Extract the name and value
+                let name = parts[0];
+                let value = parts[1];
+                println!("Colorscheme: {name} -- HEX {value}");
+            } else {
+                // Handle unexpected format
+                println!("Invalid format for string: {}", string);
+            }
+        }
+    } else if flag == "-c" {
+        let theme_name = &args[2];
+        let hex = &args[3];
+        let home_dir = dirs::home_dir();
+        if let Some(home_dir) = home_dir {
+            let mut dir_path = home_dir.to_string_lossy().into_owned();
+            dir_path.push_str("/.config/tstyle");
+            create_dir_all(&dir_path)?;
+
+            let mut file_path = PathBuf::from(dir_path);
+            file_path.push("themes.txt");
+
+            let mut file = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(&file_path)?;
+
+            writeln!(file, "{theme_name};{hex}")?;
+
+            let file = File::open("/home/hetzwga/.config/tstyle/themes.txt")?;
+            let reader = BufReader::new(file);
+
+            let mut vec: Vec<String> = Vec::new();
+            for line in reader.lines() {
+                let line = line?;
+                vec.push(line);
+            }
+        }
+    } else if flag == "-h" {
+        println!("-g, get                    get a colorscheme by its name");
+        println!("USAGE:                     tstyle -g colorscheme_name\n");
+        println!("-c, create                 create a new colorscheme");
+        println!("USAGE: tstyle -c           colorscheme_name 'colorscheme_hex'");
+        println!("make sure 'colorscheme_hex' is on quotes")
     } else {
-        panic!("Invalid arg, please provide a valid colorscheme name");
+        println!("Wrong set of arguments. Type -h for help")
     }
-
-    let file = File::open("/home/hetzwga/.tmux/plugins/tmux/catppuccin-mocha.tmuxtheme")?;
-    let reader = BufReader::new(file);
-
-    let mut vec: Vec<String> = Vec::new();
-    for line in reader.lines() {
-        let line = line?;
-        vec.push(line);
-    }
-
-    vec[4] = format!("thm_bg='{}'", hex);
-
-    let mut new = File::create("/home/hetzwga/.tmux/plugins/tmux/catppuccin-mocha.tmuxtheme")?;
-
-    for line in &vec {
-        writeln!(&mut new, "{}", line)?;
-    }
-
-    Command::new("tmux")
-        .arg("source-file")
-        .arg("/home/hetzwga/.tmux.conf")
-        .spawn()
-        .expect("source command failed to start");
     Ok(())
+}
+
+fn change_hex(hex: String) -> std::io::Result<()> {
+    let home_dir = dirs::home_dir();
+    if let Some(home_dir) = home_dir {
+        let mut dir_path = home_dir.to_string_lossy().into_owned();
+        dir_path.push_str("/.tmux/plugins/tmux");
+
+        let mut file_path = PathBuf::from(dir_path);
+        file_path.push("catppuccin-mocha.tmuxtheme");
+        let file = File::open(file_path)?;
+
+        let reader = BufReader::new(file);
+
+        let mut vec: Vec<String> = Vec::new();
+        for line in reader.lines() {
+            let line = line?;
+            vec.push(line);
+        }
+
+        vec[4] = format!("thm_bg='{}'", hex);
+
+        let mut new = File::create("/home/hetzwga/.tmux/plugins/tmux/catppuccin-mocha.tmuxtheme")?;
+
+        for line in &vec {
+            writeln!(&mut new, "{}", line)?;
+        }
+
+        Command::new("tmux")
+            .arg("source-file")
+            .arg("/home/hetzwga/.tmux.conf")
+            .spawn()
+            .expect("source command failed to start");
+
+        return Ok(());
+    } else {
+        return Err(io::Error::new(
+            io::ErrorKind::Other,
+            "Home directory not found",
+        ));
+    }
 }
