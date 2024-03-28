@@ -73,4 +73,4 @@ These sample themes will serve as examples for managing tmux statusline colorsch
 ## Contributing
 Contributions to TStyle are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Marlon-Sbardelatti/tstyle/blob/master/LICENSE) file for details.
