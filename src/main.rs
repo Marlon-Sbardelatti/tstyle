@@ -12,7 +12,7 @@ fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
 
     let flag = &args[1];
-    if flag == "-g" {
+    if flag == "-g" || flag == "--get" {
         let get_name = &args[2];
         let file = File::open("/home/hetzwga/.config/tstyle/themes.txt")?;
         let reader = BufReader::new(file);
@@ -41,7 +41,7 @@ fn main() -> std::io::Result<()> {
                 println!("Invalid format for string: {}", string);
             }
         }
-    } else if flag == "-l" {
+    } else if flag == "-l" || flag == "--list" {
         let file = File::open("/home/hetzwga/.config/tstyle/themes.txt")?;
         let reader = BufReader::new(file);
 
@@ -62,7 +62,7 @@ fn main() -> std::io::Result<()> {
                 println!("Invalid format for string: {}", string);
             }
         }
-    } else if flag == "-c" {
+    } else if flag == "-c" || flag == "--create" {
         let theme_name = &args[2];
         let hex = &args[3];
         let home_dir = dirs::home_dir();
@@ -90,14 +90,16 @@ fn main() -> std::io::Result<()> {
                 vec.push(line);
             }
         }
-    } else if flag == "-h" {
-        println!("-g, get                    get a colorscheme by its name");
+    } else if flag == "-h" || flag == "--help" {
+        println!("-g, --get                    get a colorscheme by its name");
         println!("USAGE:                     tstyle -g colorscheme_name\n");
-        println!("-c, create                 create a new colorscheme");
+        println!("-c, --create                 create a new colorscheme");
         println!("USAGE: tstyle -c           colorscheme_name 'colorscheme_hex'");
-        println!("make sure 'colorscheme_hex' is on quotes")
+        println!("make sure 'colorscheme_hex' is on quotes\n");
+        println!("-l, --list                    list all colorschemes available\n");
+        println!("-h, --help                    help command to see all functions");
     } else {
-        println!("Wrong set of arguments. Type -h for help")
+        println!("Wrong set of arguments. Type -h or --help for help")
     }
     Ok(())
 }
