@@ -17,18 +17,18 @@ Currently, TStyle is not available via a package manager. You can build it from 
 git clone https://github.com/your-username/tstyle.git
 cd tstyle
 cargo build --release
-
+```
 ## Usage
 
-# Get a tmux statusline colorscheme by its name
-tstyle -g <colorscheme_name>
+### Get a tmux statusline colorscheme by its name
+- **tstyle -g <colorscheme_name>**
 
-# Create a new tmux statusline colorscheme
-tstyle -c <colorscheme_name> '<colorscheme_hex>'
-# Make sure 'colorscheme_hex' is enclosed in single quotes
+### Create a new tmux statusline colorscheme
+**Make sure 'colorscheme_hex' is enclosed in single quotes**
+- **tstyle -c <colorscheme_name> '<colorscheme_hex>'**
 
-# List all tmux statusline colorschemes available
-tstyle -l
+### List all tmux statusline colorschemes available
+- **tstyle -l**
 
-# Display help information
-tstyle -h
+### Display help information
+- **tstyle -h**
