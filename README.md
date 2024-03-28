@@ -2,6 +2,10 @@
 
 TStyle is a command-line tool written in Rust that simplifies the process of managing tmux statusline colorschemes. With TStyle, you can easily pick existing colorschemes, create new ones, and manage your tmux statusline appearance effortlessly.
 
+
+https://github.com/Marlon-Sbardelatti/tstyle/assets/117592329/481131a8-757d-4800-ba26-16598c7b2e79
+
+
 ## Features
 
 - **Get Colorscheme**: Retrieve a tmux statusline colorscheme by its name.
