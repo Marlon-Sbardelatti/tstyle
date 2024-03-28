@@ -32,3 +32,22 @@ cargo build --release
 
 ### Display help information
 - **tstyle -h**
+
+## Example 
+
+### Get the "dracula" tmux statusline colorscheme
+```bash
+tstyle -g dracula
+```
+### Create a new colorscheme named "mytheme" with hex color "#abcdef"
+```bash
+tstyle -c mytheme '#abcdef'
+```
+### List all available tmux statusline colorschemes
+```bash
+tstyle -l
+```
+## Contributing
+Contributions to TStyle are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
