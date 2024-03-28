@@ -14,7 +14,7 @@ TStyle is a command-line tool written in Rust that simplifies the process of man
 Currently, TStyle is not available via a package manager. You can build it from source by cloning this repository and compiling it using Cargo, the Rust package manager.
 
 ```bash
-git clone https://github.com/your-username/tstyle.git
+git clone git@github.com:Marlon-Sbardelatti/tstyle.git
 cd tstyle
 cargo build --release
 ```
