@@ -131,12 +131,16 @@ fn change_hex(hex: String) -> std::io::Result<()> {
         }
 
 
-        Command::new("tmux")
-            .arg("source-file")
-            .arg("/home/hetzwga/.tmux.conf")
-            // .arg("source-file")
-            // .arg("~/.tmux.conf")
-            .spawn()
+        // Command::new("tmux")
+        //     .arg("source-file")
+        //     .arg("~/.tmux.conf")
+        //     .spawn()
+        //     .expect("source command failed to start");
+
+        Command::new("sh")
+            .arg("-c")
+            .arg("tmux source-file ~/.tmux.conf")
+            .status()
             .expect("source command failed to start");
 
         return Ok(());
