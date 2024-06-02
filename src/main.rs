@@ -108,10 +108,10 @@ fn change_hex(hex: String) -> std::io::Result<()> {
     let home_dir = dirs::home_dir();
     if let Some(home_dir) = home_dir {
         let mut dir_path = home_dir.to_string_lossy().into_owned();
-        dir_path.push_str("/.tmux/plugins/tmux");
+        dir_path.push_str("/.tmux/plugins/tmux/themes");
 
         let mut file_path = PathBuf::from(dir_path);
-        file_path.push("catppuccin-mocha.tmuxtheme");
+        file_path.push("catppuccin_mocha.tmuxtheme");
         let file = File::open(file_path)?;
 
         let reader = BufReader::new(file);
@@ -124,15 +124,18 @@ fn change_hex(hex: String) -> std::io::Result<()> {
 
         vec[4] = format!("thm_bg='{}'", hex);
 
-        let mut new = File::create("/home/hetzwga/.tmux/plugins/tmux/catppuccin-mocha.tmuxtheme")?;
+        let mut new = File::create("/home/hetzwga/.tmux/plugins/tmux/themes/catppuccin_mocha.tmuxtheme")?;
 
         for line in &vec {
             writeln!(&mut new, "{}", line)?;
         }
 
+
         Command::new("tmux")
             .arg("source-file")
             .arg("/home/hetzwga/.tmux.conf")
+            // .arg("source-file")
+            // .arg("~/.tmux.conf")
             .spawn()
             .expect("source command failed to start");
 
